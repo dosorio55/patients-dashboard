@@ -6,12 +6,16 @@ interface Context {
   patients: PatientData[];
   selectedUser: string | null;
   handleSelectedUser: (userId: string | null) => void;
+  modalIsOpen: boolean;
+  handleSetModal: (isOpen: boolean) => void;
 }
 
 export const UsersContext = React.createContext<Context>({
   patients: patients,
   selectedUser: null,
   handleSelectedUser: () => {},
+  modalIsOpen: false,
+  handleSetModal: () => {},
 });
 
 interface UserContextProps {
@@ -20,9 +24,14 @@ interface UserContextProps {
 
 const UserContextComponent = (props: UserContextProps) => {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleSelectedUser = (userId: string | null) => {
     setSelectedUser(userId);
+  };
+
+  const handleSetModal = (isOpen: boolean) => {
+    setModalIsOpen(isOpen);
   };
 
   useEffect(() => {
@@ -41,6 +50,8 @@ const UserContextComponent = (props: UserContextProps) => {
         patients: patients,
         selectedUser: selectedUser,
         handleSelectedUser: handleSelectedUser,
+        handleSetModal: handleSetModal,
+        modalIsOpen: modalIsOpen,
       }}
     >
       {props.children}
