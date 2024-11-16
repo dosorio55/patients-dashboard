@@ -11,10 +11,7 @@ const Dashboard = () => {
 
   const handleUserPress = (user: PatientData) => {
     contextData.handleSelectedUser(user.id);
-  };
-
-  const handleCloseModal = () => {
-    contextData.handleSelectedUser(null);
+    contextData.handleSetModal(true);
   };
 
   const selectedPatient = patients.find((patient) => {
@@ -34,11 +31,7 @@ const Dashboard = () => {
         contentContainerStyle={styles.listContainer}
         style={{ display: "flex", gap: "16px", padding: 10 }}
       />
-      <UserDetailModal
-        patient={selectedPatient}
-        visible={contextData.selectedUser !== null}
-        onClose={handleCloseModal}
-      />
+      <UserDetailModal patient={selectedPatient} />
     </SafeAreaView>
   );
 };

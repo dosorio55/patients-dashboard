@@ -8,25 +8,31 @@ import {
 } from "react-native";
 import PatientData from "../types/user";
 import { Link, router } from "expo-router";
+import { useContext } from "react";
+import { UsersContext } from "../context/user-context";
 
 interface UserDetailModalProps {
   patient: PatientData | undefined;
-  visible: boolean;
-  onClose: () => void;
 }
 
-const UserDetailModal: React.FC<UserDetailModalProps> = ({
-  patient,
-  visible,
-  onClose,
-}) => {
+const UserDetailModal: React.FC<UserDetailModalProps> = ({ patient }) => {
+  const contextData = useContext(UsersContext);
+
   const goToPage = () => {
-    // onClose();
+    contextData.handleSetModal(false);
     router.push("/patient-profile");
   };
 
+  const onClose = () => {
+    contextData.handleSetModal(false);
+  };
+
   return (
-    <Modal visible={visible} animationType="slide" transparent={true}>
+    <Modal
+      visible={contextData.modalIsOpen}
+      animationType="slide"
+      transparent={true}
+    >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Image source={{ uri: patient?.avatar }} style={styles.modalAvatar} />
